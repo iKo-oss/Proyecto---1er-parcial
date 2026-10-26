@@ -2,6 +2,27 @@
 
 /* Torso */
 
+ropa(playera, ).
+
+ropa(polo, ).
+
+ropa(camisa_manga_larga, ).
+
+ropa(camisa_vestir, ).
+
+ropa(sobrecamisa, ).
+
+ropa(sueter, ).
+
+ropa(sudadera, ).
+
+ropa(hoddie, ).
+
+ropa(chaqueta_denim, ).
+
+ropa(blazer, ).
+
+ropa(abrigo_largo, ).
 
 ropa(gabardina, beige).
 ropa(gabardina, negro).
