@@ -10,6 +10,7 @@ temporada_paleta(invierno, 69, [verde_sage, negro]).
 
 /* Primavera */
 temporada_paleta(primavera, 143, [azul_brillante, lavanda, verde_sage]).
+temporada_paleta(primavera, 330, [verde_pera, agua_menta, azul_cielo, verde_jade]).
 
 /* Verano */
 temporada_paleta(verano, 125, [rosa_palido, turquesa, azul_cobalto]).
