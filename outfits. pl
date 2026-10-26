@@ -1,0 +1,8 @@
+/* Creador de outfits */
+
+/* Cargar los archivos*/
+:- consult('clima.pl').
+:- consult('colores.pl').
+:- consult('escenarios.pl').
+:- consult('prendas.pl').
+:- consult('closet.pl').
