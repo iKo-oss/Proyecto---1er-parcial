@@ -3,4 +3,40 @@
 /* Torso */
 
 
-ropa(gabardina,  
+ropa(gabardina, beige).
+ropa(gabardina, negro).
+ropa(gabardina, azul_marino).
+
+ropa(parka, negro).
+ropa(parka, azul_marino).
+ropa(parka, azul_brillante).
+
+ropa(levita, negro).
+ropa(levita, azul_marino).
+ropa(levita, gris).
+
+ropa(abrigo_loden, marron_oscuro).
+ropa(abrigo_loden, gris).
+ropa(abrigo_loden, verde_petroleo).
+
+ropa(camisa_hawaiana, blanco).
+ropa(camisa_hawaiana, turquesa).
+ropa(camisa_hawaiana, azul_cobalto).
+
+ropa(guayabera, crema).
+ropa(guayabera, azul_cielo).
+ropa(guayabera, verde_pera).
+
+/* Piernas */
+
+ropa(short, beige).
+ropa(short, verde_boscoso).
+ropa(short, azul_cobalto).
+
+ropa(jogger, gris).
+ropa(jogger, negro).
+ropa(jogger, azul_marino).
+
+ropa(jeans, azul_denim).
+ropa(negro, gris).
+ropa(
