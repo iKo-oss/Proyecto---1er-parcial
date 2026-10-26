@@ -2,7 +2,8 @@
 
 /* Cargar los archivos*/
 :- consult('clima.pl').
+:- consult('closet.pl').
 :- consult('colores.pl').
 :- consult('escenarios.pl').
 :- consult('prendas.pl').
-:- consult('closet.pl').
+
