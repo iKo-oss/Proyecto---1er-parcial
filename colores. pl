@@ -1,3 +1,4 @@
+/* Colores */
 /* Otoño */
 temporada_paleta(otonio, 110, [marron_terracota, marron_oscuro]).
 temporada_paleta(otonio, 241, [rojo_vivo, amarillo_claro, ocre_mostaza,verde_petroleo]).
