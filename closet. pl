@@ -2,27 +2,49 @@
 
 /* Torso */
 
-ropa(playera, ).
+ropa(playera, blanco).
+ropa(playera, rosa_palido).
+ropa(playera, amarillo_neon).
 
-ropa(polo, ).
+ropa(polo, azul_marino).
+ropa(polo, lavanda).
+ropa(polo, amarillo_claro).
 
-ropa(camisa_manga_larga, ).
+ropa(camisa_manga_larga, blanco).
+ropa(camisa_manga_larga, verde_menta).
+ropa(camisa_manga_larga, ocre_mostaza).
 
-ropa(camisa_vestir, ).
+ropa(camisa_vestir, blanco).
+ropa(camisa_vestir, azul_cielo).
+ropa(camisa_vestir, menta_palido).
 
-ropa(sobrecamisa, ).
+ropa(sobrecamisa, beige).
+ropa(sobrecamisa, marron_terracota).
+ropa(sobrecamisa, verde_petroleo).
 
-ropa(sueter, ).
+ropa(sueter, crema).
+ropa(sueter, rojo_granate).
+ropa(sueter, verde_jade).
 
-ropa(sudadera, ).
+ropa(sudadera, gris).
+ropa(sudadera, azul_brillante).
+ropa(sudadera, verde_sage).
 
-ropa(hoodie, ).
+ropa(hoodie, gris).
+ropa(hoodie, rojo_carmesi).
+ropa(hoodie, rojo_vivo).
 
-ropa(chaqueta_denim, ).
+ropa(chaqueta_denim, azul_denim).
+ropa(chaqueta_denim, negro).
+ropa(chaqueta_denim, blanco).
 
-ropa(blazer, ).
+ropa(blazer, negro).
+ropa(blazer, ocre_mostaza).
+ropa(blazer, agua_menta).
 
-ropa(abrigo_largo, ).
+ropa(abrigo_largo, negro).
+ropa(abrigo_largo, marron_oscuro).
+ropa(abrigo_largo, gris).
 
 ropa(gabardina, beige).
 ropa(gabardina, negro).
