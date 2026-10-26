@@ -38,5 +38,21 @@ ropa(jogger, negro).
 ropa(jogger, azul_marino).
 
 ropa(jeans, azul_denim).
-ropa(negro, gris).
-ropa(
+ropa(jeans, negro).
+ropa(jeans, gris).
+
+ropa(pantalon_cargo, beige).
+ropa(pantalon_cargo, verde_sage).
+ropa(pantalon_cargo, verde_petroleo).
+
+ropa(pantalon_chino, azul_marino).
+ropa(pantalon_chino, marron_oscuro).
+ropa(pantalon_chino, verde_pera).
+
+ropa(pantalon_vestir, negro).
+ropa(pantalon_vestir, azul_marino).
+ropa(pantalon_vestir, gris).
+
+ropa(pantalon_corto_vestir, azul_marino).
+ropa(pantalon_corto_vestir, beige).
+ropa(pantalon_corto_vestir, gris).
