@@ -24,3 +24,15 @@ clima_temporada(calor, verano).
 clima_temporada(templado, primavera).
 clima_temporada(templado, otonio).
 clima_temporada(frio, invierno).
+
+/* Colores neutros */
+/* Nota: estos colores serán considerados válidos para cualquier temporada*/
+color_neutro(blanco).
+color_neutro(negro).
+color_neutro(gris).
+color_neutro(beige).
+color_neutro(crema).
+color_neutro(azul_marino).
+color_neutro(marron_oscuro).
+color_neutro(azul_denim). 
+/* El azul denim es específico para prendas de mezclilla */
