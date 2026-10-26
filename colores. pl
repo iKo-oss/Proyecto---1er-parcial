@@ -1,0 +1,24 @@
+/* Otoño */
+temporada_paleta(otonio, 110, [marron_terracota, marron_oscuro]).
+temporada_paleta(otonio, 241, [rojo_vivo, amarillo_claro, ocre_mostaza,verde_petroleo]).
+
+/* Invierno */
+temporada_paleta(invierno, 16, [rojo_granate, menta_palido]).
+temporada_paleta(invierno, 51, [rojo_carmesi, azul_brillante]).
+temporada_paleta(invierno, 60, [amarillo_claro, azul_marino]).
+temporada_paleta(invierno, 69, [verde_sage, negro]).
+
+/* Primavera */
+temporada_paleta(primavera, 143, [azul_brillante, lavanda, verde_sage]).
+
+/* Verano */
+temporada_paleta(verano, 125, [rosa_palido, turquesa, azul_cobalto]).
+temporada_paleta(verano, 189, [amarillo_neon, verde_boscoso, verde_menta]).
+temporada_paleta(verano, 60, [amarillo_claro, azul_marino]).
+
+/* PUENTE: CLIMA Y TEMPORADA */
+
+clima_temporada(calor, verano).
+clima_temporada(templado, primavera).
+clima_temporada(templado, otonio).
+clima_temporada(frio, invierno).
