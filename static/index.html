@@ -71,12 +71,16 @@ function prenda(p){
 }
 function detalle(e){
   if(!e)return '';
-  const pares=e.parejas.map(p=>`${esc(nom(p.color1))} + ${esc(nom(p.color2))}: ${esc(nom(p.motivo))}`).join('<br>');
+  const niveles = e.formalidad_lugar.join(' o ');
+  let motivos = e.parejas.map(p => {
+    if(p.motivo === 'igual') return `el color ${esc(nom(p.color1))} hace juego perfecto`;
+    if(p.motivo === 'neutro') return `usa tonos neutros para equilibrar colores como el ${esc(nom(p.color1))}`;
+    return `el ${esc(nom(p.color1))} y el ${esc(nom(p.color2))} arman el contraste ideal de la temporada`;
+  });
+  let colorExp = [...new Set(motivos)].join(', además '); 
+  
   return `<details><summary>¿Por qué se recomienda?</summary>
-    Formalidad del lugar: ${esc(e.formalidad_lugar.join(' o '))} (escala 1 a 3).<br>
-    Abrigo máximo permitido por el clima: ${esc(e.abrigo_maximo)}.<br>
-    Capas de torso: ${esc(e.capas)}.<br>
-    Combinación de colores:<br>${pares||'una sola prenda de color'}</details>`;
+    Este atuendo respeta la formalidad del lugar (nivel ${esc(niveles)} de 3) y te mantiene cómodo sin pasar el límite de abrigo del clima (nivel ${esc(e.abrigo_maximo)}). Llevas ${esc(e.capas)} ${e.capas===1?'capa':'capas'} en el torso, y visualmente funciona porque ${colorExp || 'mantiene un tono uniforme'}.</details>`;
 }
 function tarjeta(o){
   return `<div class="card"><span class="pts">Colores de la paleta: ${esc(o.puntaje)}</span>
