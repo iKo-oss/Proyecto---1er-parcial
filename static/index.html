@@ -179,7 +179,7 @@ $('f').addEventListener('submit',async ev=>{
     }else if(d.outfits.length===0){
       $('estado').innerHTML='<div class="msg glass">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';
     }else{
-      $('estado').textContent='✨ Outfits recomendados para ti ✨';
+      $('estado').textContent='Outfits recomendados para ti';
       $('resultados').innerHTML=d.outfits.map((o, i) => tarjeta(o, i)).join('');
     }
   }catch(e){
