@@ -50,12 +50,10 @@ responder(error(Codigo), _, _, _) :-
     mensaje_error(Codigo, Mensaje),
     reply_json_dict(_{estado: error, codigo: Codigo, mensaje: Mensaje}, [status(400)]).
 responder(ok(Pares), Lugar, Temp, Temporada) :-
-    length(Pares, Total),
     max_resultados(Max),
     primeros(Max, Pares, Mostrar),
     maplist(outfit_json(Lugar, Temp, Temporada), Mostrar, Outfits),
-    length(Mostrar, Mostrados),
-    reply_json_dict(_{estado: ok, total: Total, mostrados: Mostrados, outfits: Outfits}).
+    reply_json_dict(_{estado: ok, total: "", mostrados: "", outfits: Outfits}).
 
 responder_interno :-
     reply_json_dict(_{estado: error, codigo: error_interno,
