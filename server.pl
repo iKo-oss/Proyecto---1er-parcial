@@ -6,7 +6,6 @@
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_files)).
 
-/* Cambiar el nombre si el archivo principal se llama distinto */
 :- consult('outfits.pl').
 
 :- http_handler(root(api/opciones), handle_opciones, []).
