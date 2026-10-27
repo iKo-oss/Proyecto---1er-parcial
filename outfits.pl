@@ -9,7 +9,7 @@
 
 :- use_module(library(solution_sequences)).
 
-/* Regla 0: Entradas válidas */
+/* Regla: Entradas válidas */
 /* lugar_valido ( lugar ), temperatura_valida ( temperatura ), temporada_valida ( temporada ), capas_validas ( capas ) */
 /* Comprueban que el lugar exista en los escenarios, que la temperatura exista en el clima, que la temporada sea válida y que las capas sean 1, 2, 3 o todas */
 /* Nota: todas significa que el usuario acepta de 1 a 3 capas */
@@ -217,12 +217,12 @@ capas_elegidas(NumCapas, NumCapas) :- member(NumCapas, [1, 2, 3]).
 colores_de(Outfit, Colores) :- findall(Color, member(_-Color, Outfit), Colores).
 
 
-/* Regla: Colección sin repetidos */
-/* outfits ( lugar, temperatura, temporada, capas, lista de outfits ) */
-/* Reúne todos los outfits de una consulta y quita los repetidos, que pueden aparecwr por los hechos dobles */
-/* Nota: Si no hay ningún outfit, devuelve la lista vacía */
+
+
+/* Regla: Colección sin repetidos (Optimizada) */
+/* Esta regla se optimizo porque se nos paso la mano con los hechos, entonces las busquedas nos parecieron mas de lo necesarias, por ello el límite */
 outfits(Lugar, Temp, Temporada, Capas, Lista) :-
-    findall(Outfit, outfit(Lugar, Temp, Temporada, Capas, Outfit), Todos),
+    findall(Outfit, limit(150, outfit(Lugar, Temp, Temporada, Capas, Outfit)), Todos),
     sort(Todos, Lista).
 
 
