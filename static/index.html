@@ -3,117 +3,269 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VestirMe</title>
+<title>VestirMe — Tu look, edición personal</title>
+<meta name="description" content="VestirMe sugiere atuendos según el lugar, el clima, tu paleta de color y el número de capas.">
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg1: #fbc2eb; --bg2: #a6c1ee; --bg3: #ffecd2;
-  --glass: rgba(255, 255, 255, 0.65);
-  --border: rgba(255, 255, 255, 0.4);
-  --text: #2f3542; --mut: #57606f;
-  --acc: #ff4757; --acc-hover: #ff6b81;
+  --paper: #f4efe6;
+  --paper-2: #ebe4d7;
+  --ink: #1a1714;
+  --mut: #6b635a;
+  --line: #d6ccbb;
+  --acc: #a8461f;
+  --acc-ink: #ffffff;
+  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
-@media(prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg1: #1e3c72; --bg2: #2a5298; --bg3: #192a56;
-    --glass: rgba(20, 20, 30, 0.65);
-    --border: rgba(255, 255, 255, 0.1);
-    --text: #f1f2f6; --mut: #a4b0be;
-    --acc: #ff6b81; --acc-hover: #ff4757;
+    --paper: #14120f;
+    --paper-2: #1d1a16;
+    --ink: #f1ebe0;
+    --mut: #a59c90;
+    --line: #36312a;
+    --acc: #e07a4f;
+    --acc-ink: #14120f;
   }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-  font-family: 'Montserrat', sans-serif; color: var(--text); min-height: 100vh;
-  background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3));
-  background-size: 200% 200%;
-  animation: moveBg 12s ease infinite;
-  padding: 40px 20px;
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  min-height: 100vh;
 }
-@keyframes moveBg { 
-  0% { background-position: 0% 50%; } 
-  50% { background-position: 100% 50%; } 
-  100% { background-position: 0% 50%; } 
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
-@keyframes slideUp { 
-  from { opacity: 0; transform: translateY(30px); } 
-  to { opacity: 1; transform: translateY(0); } 
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* Masthead */
+.topbar {
+  border-bottom: 1px solid var(--ink);
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
 }
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+.topbar .wrap { display: flex; justify-content: space-between; gap: 16px; padding-top: 12px; padding-bottom: 12px; }
+.topbar span:last-child { color: var(--mut); }
+
+.masthead { text-align: center; padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+.kicker { font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--acc); font-weight: 600; }
+.masthead h1 {
+  font-family: var(--serif); font-weight: 800;
+  font-size: clamp(3.5rem, 12vw, 8.5rem); line-height: 0.95; letter-spacing: -0.03em;
+  margin: 14px 0 18px;
+}
+.masthead h1 em { font-style: italic; font-weight: 500; color: var(--acc); }
+.masthead .tagline { font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.4rem); color: var(--mut); max-width: 34ch; margin: 0 auto; }
+[hidden] { display: none !important; }
+
+/* Layout */
+.layout { display: flex; flex-direction: column; gap: 56px; padding: 48px 0 96px; }
+@media (min-width: 900px) {
+  .layout { flex-direction: row; align-items: flex-start; }
+  .panel { flex: 0 0 340px; position: sticky; top: 24px; }
+  .feed { flex: 1; min-width: 0; }
 }
 
-main { max-width: 800px; margin: 0 auto; }
-h1 { font-size: 3rem; font-weight: 800; text-align: center; margin-bottom: 8px; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.sub { text-align: center; font-weight: 500; font-size: 1.1rem; color: var(--text); opacity: 0.8; margin-bottom: 40px; }
+.section-title {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  border-bottom: 1px solid var(--ink); padding-bottom: 10px; margin-bottom: 24px;
+}
+.section-title h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; }
+.section-title span { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mut); }
 
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+/* Form */
+form { display: flex; flex-direction: column; gap: 28px; }
+fieldset { border: 0; display: flex; flex-direction: column; gap: 12px; }
+legend {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600;
+}
+legend b { font-family: var(--serif); font-size: 1rem; font-style: italic; font-weight: 500; color: var(--acc); letter-spacing: 0; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts:empty::after { content: 'Cargando…'; font-size: 0.85rem; color: var(--mut); font-style: italic; }
+.opt { position: relative; cursor: pointer; }
+.opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.opt > span {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 0.88rem; font-weight: 500; background: transparent;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.opt:hover > span { border-color: var(--ink); }
+.opt input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.opt input:focus-visible + span { outline: 2px solid var(--acc); outline-offset: 2px; }
+.dots { display: inline-flex; }
+.dots i { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); margin-left: -4px; }
+.dots i:first-child { margin-left: 0; }
+.stack { display: inline-flex; flex-direction: column; gap: 2px; }
+.stack i { display: block; width: 14px; height: 3px; background: currentColor; border-radius: 1px; }
+
+.summary {
+  font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--mut);
+  border-left: 2px solid var(--acc); padding: 4px 0 4px 14px;
+}
+.summary strong { color: var(--ink); font-weight: 500; }
+
+.cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--ink); color: var(--paper); border: 0; cursor: pointer;
+  padding: 18px 22px; font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; transition: background-color .2s;
+}
+.cta:hover { background: var(--acc); color: var(--acc-ink); }
+.cta:disabled { opacity: .6; cursor: wait; }
+.cta svg { width: 18px; height: 18px; transition: transform .2s; }
+.cta:hover svg { transform: translateX(4px); }
+
+/* Feed */
+.toolbar { display: flex; gap: 4px; }
+.toolbar button {
+  background: none; border: 0; cursor: pointer; color: var(--mut);
+  font: 600 0.72rem var(--sans); letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 6px;
+}
+.toolbar button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+.intro { padding: 48px 0; text-align: center; border: 1px solid var(--line); background: var(--paper-2); }
+.intro p:first-child { font-family: var(--serif); font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 500; line-height: 1.2; max-width: 22ch; margin: 0 auto 12px; }
+.intro p:last-child { color: var(--mut); font-size: 0.92rem; max-width: 40ch; margin: 0 auto; padding: 0 16px; }
+
+.look {
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 32px 0; border-bottom: 1px solid var(--line);
+  animation: rise .6s ease backwards;
+}
+.look:first-child { padding-top: 0; }
+@media (min-width: 640px) { .look { flex-direction: row; gap: 32px; } }
+
+.look-head { flex: 0 0 150px; display: flex; flex-direction: column; gap: 8px; }
+.look-num { font-family: var(--serif); font-size: 4.5rem; font-weight: 800; line-height: .9; letter-spacing: -0.04em; }
+.look-num small { display: block; font-family: var(--sans); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mut); margin-bottom: 6px; }
+.badge {
+  align-self: flex-start; background: var(--acc); color: var(--acc-ink);
+  font-size: 0.64rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 5px 9px;
 }
 
-form { padding: 30px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; margin-bottom: 30px; }
-@media(max-width: 550px) { form { grid-template-columns: 1fr; } }
+.look-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.strip { display: flex; height: 56px; border: 1px solid var(--line); }
+.strip i { flex: 1; transition: flex-grow .3s; }
+.strip i:hover { flex-grow: 1.6; }
 
-label { display: grid; gap: 8px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mut); }
-select { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; transition: all 0.3s; outline: none; }
-select:focus { border-color: var(--acc); box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2); }
-select option { background: var(--bg2); color: var(--text); }
+.garments { list-style: none; display: flex; flex-direction: column; }
+.garment { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+.garment:last-child { border-bottom: 1px solid var(--line); }
+.swatch { flex: 0 0 44px; height: 44px; border: 1px solid rgba(0,0,0,.12); }
+.garment-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; flex: 1; min-width: 0; }
+.garment-color { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mut); text-align: right; }
+.garment-color code { display: block; font-family: ui-monospace, Menlo, monospace; letter-spacing: 0; text-transform: uppercase; font-size: 0.7rem; opacity: .8; }
 
-button { 
-  grid-column: 1 / -1; background: var(--acc); color: white; border: none; padding: 16px; border-radius: 12px; 
-  font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-  cursor: pointer; transition: all 0.3s; margin-top: 10px;
+.why { font-family: var(--serif); font-style: italic; font-size: 1.05rem; line-height: 1.5; }
+.why::before { content: '\201C'; color: var(--acc); font-size: 2rem; line-height: 0; vertical-align: -0.35em; margin-right: 4px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--line); padding: 4px 8px; color: var(--mut); }
+
+.look-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.meter { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 200px; }
+.meter-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mut); white-space: nowrap; }
+.meter-track { flex: 1; height: 4px; background: var(--line); position: relative; }
+.meter-fill { position: absolute; inset: 0 auto 0 0; background: var(--ink); }
+.meter-val { font-family: var(--serif); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
+.link-btn {
+  background: none; border: 0; border-bottom: 1px solid currentColor; cursor: pointer; color: var(--ink);
+  font: 600 0.72rem var(--sans); letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 0;
 }
-button:hover { background: var(--acc-hover); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3); }
-button:disabled { background: var(--mut); cursor: wait; transform: none; box-shadow: none; animation: pulse 1.5s infinite; }
+.link-btn:hover { color: var(--acc); }
 
-#estado { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; min-height: 24px; }
-.msg { padding: 20px; text-align: center; font-weight: 600; color: var(--acc); }
-
-.card { padding: 24px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 16px; transition: transform 0.3s, box-shadow 0.3s; }
-.card:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
-
-.prendas { display: flex; flex-wrap: wrap; gap: 12px; }
-.chip { 
-  display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.4); 
-  border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px 8px 10px; 
-  font-size: 0.95rem; font-weight: 600; transition: transform 0.2s, background 0.2s; 
+/* Messages */
+.notice { border: 1px solid var(--line); background: var(--paper-2); padding: 32px; text-align: center; }
+.notice h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+.notice p { color: var(--mut); max-width: 44ch; margin: 0 auto; }
+.notice .sugs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
+.notice .sugs button {
+  background: transparent; border: 1px solid var(--ink); color: var(--ink); cursor: pointer;
+  font: 500 0.85rem var(--sans); padding: 8px 14px; border-radius: 999px;
 }
-.chip:hover { transform: scale(1.05); background: rgba(255,255,255,0.8); }
-.sw { width: 20px; height: 20px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white; }
+.notice .sugs button:hover { background: var(--ink); color: var(--paper); }
 
-details { background: rgba(255,255,255,0.2); padding: 16px; border-radius: 16px; font-size: 0.9rem; font-weight: 500; line-height: 1.6; border: 1px solid var(--border); }
-summary { font-weight: 700; color: var(--acc); cursor: pointer; outline: none; margin-bottom: 8px; }
-summary::marker { color: var(--acc); }
-.pts { align-self: flex-start; background: var(--acc); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
+/* Skeleton */
+.skel { display: flex; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+.skel:first-child { padding-top: 0; }
+.skel div { background: var(--paper-2); position: relative; overflow: hidden; }
+.skel div::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(127,127,127,.12), transparent);
+  animation: shimmer 1.4s infinite; transform: translateX(-100%);
+}
+.skel .s-num { flex: 0 0 110px; height: 80px; }
+.skel .s-body { flex: 1; height: 200px; }
+
+.colophon { border-top: 1px solid var(--ink); padding: 20px 0 40px; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mut); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
-<main>
-  <h1>VestirMe</h1>
-  <p class="sub">Descubre tu outfit perfecto impulsado por nuestro sistema experto.</p>
-  
-  <form id="f" class="glass">
-    <label>Lugar <select id="lugar"></select></label>
-    <label>Clima <select id="temperatura"></select></label>
-    <label>Paleta <select id="temporada"></select></label>
-    <label>Capas <select id="capas"></select></label>
-    <button type="submit" id="btn-buscar">Generar Recomendaciones</button>
-  </form>
-  
-  <div id="estado"></div>
-  <div id="resultados"></div>
+<header>
+  <div class="topbar"><div class="wrap"><span>Edición personal</span><span id="fecha"></span></div></div>
+  <div class="wrap masthead">
+    <p class="kicker">Estilismo asistido por un sistema experto</p>
+    <h1>Vestir<em>Me</em></h1>
+    <p class="tagline">El look perfecto para cada ocasión, clima y paleta de color.</p>
+  </div>
+</header>
+
+<main class="wrap layout">
+  <aside class="panel" aria-labelledby="t-form">
+    <div class="section-title"><h2 id="t-form">Tu ocasión</h2><span>Paso 1</span></div>
+    <form id="f">
+      <fieldset><legend><b>01</b> Lugar</legend><div class="opts" id="lugar"></div></fieldset>
+      <fieldset><legend><b>02</b> Clima</legend><div class="opts" id="temperatura"></div></fieldset>
+      <fieldset><legend><b>03</b> Paleta</legend><div class="opts" id="temporada"></div></fieldset>
+      <fieldset><legend><b>04</b> Capas</legend><div class="opts" id="capas"></div></fieldset>
+      <p class="summary" id="resumen" aria-live="polite"></p>
+      <button type="submit" class="cta" id="btn-buscar">
+        <span>Crear mis looks</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
+      </button>
+    </form>
+  </aside>
+
+  <section class="feed" aria-labelledby="t-feed">
+    <div class="section-title">
+      <h2 id="t-feed">La selección</h2>
+      <div class="toolbar" id="toolbar" hidden>
+        <button type="button" data-orden="puntaje" aria-pressed="true">Armonía</button>
+        <button type="button" data-orden="prendas" aria-pressed="false">Prendas</button>
+      </div>
+      <span id="contador">Paso 2</span>
+    </div>
+    <div id="estado" role="status" aria-live="polite" class="sr-only"></div>
+    <div id="resultados">
+      <div class="intro">
+        <p>Elige tu ocasión y te armamos la portada.</p>
+        <p>Combinamos tus prendas según la formalidad del lugar, el clima y la armonía de color de tu temporada.</p>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="wrap colophon">VestirMe — Recomendaciones de color y estilo</footer>
+
 <script>
 const HEX={rojo_vivo:'#e81900',amarillo_claro:'#fff59e',ocre_mostaza:'#c3a55c',verde_petroleo:'#417777',
 rojo_granate:'#740909',menta_palido:'#abf5ed',rojo_carmesi:'#a10b2b',azul_brillante:'#0d75ff',azul_marino:'#0d2b52',
@@ -121,71 +273,181 @@ verde_sage:'#9cb29e',negro:'#000000',lavanda:'#b875eb',rosa_palido:'#d1b0b3',tur
 amarillo_neon:'#f2ff26',verde_boscoso:'#172713',verde_menta:'#6bffb3',marron_terracota:'#6c2b11',marron_oscuro:'#362304',
 blanco:'#ffffff',gris:'#8c8c8c',beige:'#d8c8a8',crema:'#f3ecd2',azul_denim:'#3b5b8c',
 verde_pera:'#d1e231',agua_menta:'#a8e6cf',azul_cielo:'#87ceeb',verde_jade:'#00a86b'};
+const PALETAS={
+  primavera:['verde_pera','amarillo_claro','turquesa','rosa_palido'],
+  verano:['lavanda','azul_cielo','menta_palido','rosa_palido'],
+  otonio:['ocre_mostaza','marron_terracota','verde_petroleo','rojo_granate'],
+  invierno:['azul_cobalto','rojo_carmesi','negro','blanco'],
+  neutros:['negro','gris','beige','blanco']
+};
 const ETIQ={otonio:'Otoño',neutros:'Solo neutros',todas:'Todas (1 a 3)',frio:'Frío'};
+const MOTIVOS={igual:'Tonos idénticos',neutro:'Base neutra',temporada:'Paleta de temporada'};
 const nom=s=>String(s).replace(/_/g,' ');
 const cap=s=>{s=nom(s);return s.charAt(0).toUpperCase()+s.slice(1)};
 const etiq=v=>ETIQ[v]||(typeof v==='number'?v+(v===1?' capa':' capas'):cap(v));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $=id=>document.getElementById(id);
+const hexDe=c=>HEX[c]||'#cccccc';
+const valor=id=>{const el=document.querySelector(`input[name="${id}"]:checked`);return el?el.value:''};
 
-function llenar(id,vals){
-  $(id).innerHTML=vals.map(v=>`<option value="${esc(v)}">${esc(etiq(v))}</option>`).join('');
+$('fecha').textContent=new Date().toLocaleDateString('es',{day:'numeric',month:'long',year:'numeric'});
+
+let outfits=[];
+let orden='puntaje';
+
+function adorno(id,v){
+  if(id==='temporada'&&PALETAS[v]){
+    return `<span class="dots" aria-hidden="true">${PALETAS[v].map(c=>`<i style="background:${hexDe(c)}"></i>`).join('')}</span>`;
+  }
+  if(id==='capas'&&typeof v==='number'){
+    return `<span class="stack" aria-hidden="true">${'<i></i>'.repeat(v)}</span>`;
+  }
+  return '';
 }
+function llenar(id,vals){
+  $(id).innerHTML=vals.map((v,i)=>`<label class="opt"><input type="radio" name="${id}" value="${esc(v)}"${i===0?' checked':''}><span>${adorno(id,v)}${esc(etiq(v))}</span></label>`).join('');
+}
+function textoDe(id){
+  const el=document.querySelector(`input[name="${id}"]:checked`);
+  return el?el.nextElementSibling.textContent.trim().toLowerCase():'—';
+}
+function resumen(){
+  $('resumen').innerHTML=`Un look para <strong>${esc(textoDe('lugar'))}</strong>, clima <strong>${esc(textoDe('temperatura'))}</strong>, paleta <strong>${esc(textoDe('temporada'))}</strong> y <strong>${esc(textoDe('capas'))}</strong>.`;
+}
+$('f').addEventListener('change',resumen);
+
 fetch('/api/opciones').then(r=>r.json()).then(o=>{
   llenar('lugar',o.lugares);llenar('temperatura',o.temperaturas);
   llenar('temporada',o.temporadas);llenar('capas',o.capas);
-}).catch(()=>{$('estado').textContent='No se pudo conectar con el servidor.'});
+  resumen();
+}).catch(()=>{aviso('Sin conexión','No se pudo conectar con el servidor. Revisa que esté en marcha e intenta de nuevo.')});
+
+function aviso(titulo,texto,sugerencias=''){
+  $('toolbar').hidden=true;
+  $('contador').hidden=false;
+  $('contador').textContent='Paso 2';
+  $('estado').textContent=titulo;
+  $('resultados').innerHTML=`<div class="notice"><h3>${esc(titulo)}</h3><p>${esc(texto)}</p>${sugerencias}</div>`;
+}
+
+function explicacion(e){
+  if(!e)return {texto:'',tags:[]};
+  const claves=[...new Set((e.parejas||[]).map(p=>p.motivo==='igual'||p.motivo==='neutro'?p.motivo:'temporada'))];
+  const frases=claves.map(k=>k==='igual'?'comparte tonos idénticos':k==='neutro'?'equilibra con tonos neutros':'aprovecha los colores de la temporada');
+  return {
+    texto:`Apto para el clima y la formalidad del evento. Combina bien porque ${frases.join(' y ')||'mantiene un tono uniforme'}.`,
+    tags:claves.map(k=>MOTIVOS[k])
+  };
+}
 
 function prenda(p){
-  const hex=HEX[p.color]||'#cccccc';
-  return `<span class="chip"><span class="sw" style="background:${hex}"></span>${esc(cap(p.tipo))} · ${esc(nom(p.color))}</span>`;
+  const hex=hexDe(p.color);
+  return `<li class="garment">
+    <span class="swatch" style="background:${hex}" aria-hidden="true"></span>
+    <span class="garment-name">${esc(cap(p.tipo))}</span>
+    <span class="garment-color">${esc(nom(p.color))}<code>${hex}</code></span>
+  </li>`;
 }
-function detalle(e){
-  if(!e)return '';
-  let motivos = e.parejas.map(p => {
-    if(p.motivo === 'igual') return 'comparte tonos idénticos';
-    if(p.motivo === 'neutro') return 'equilibra con tonos neutros';
-    return 'aprovecha los colores de la temporada';
+
+function tarjeta(o,i,max,esMejor){
+  const n=String(i+1).padStart(2,'0');
+  const pct=max>0?Math.max(6,Math.round(Number(o.puntaje)/max*100)):0;
+  const ex=explicacion(o.explicacion);
+  return `<article class="look" style="animation-delay:${i*0.08}s" aria-labelledby="look-${i}">
+    <div class="look-head">
+      <h3 class="look-num" id="look-${i}"><small>Look N.º</small>${n}</h3>
+      ${esMejor?'<span class="badge">Mejor combinación</span>':''}
+    </div>
+    <div class="look-body">
+      <div class="strip" aria-hidden="true">${o.prendas.map(p=>`<i style="background:${hexDe(p.color)}"></i>`).join('')}</div>
+      <ul class="garments" aria-label="Prendas del look ${n}">${o.prendas.map(prenda).join('')}</ul>
+      ${ex.texto?`<p class="why">${esc(ex.texto)}</p>`:''}
+      ${ex.tags.length?`<div class="tags">${ex.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`:''}
+      <div class="look-foot">
+        <div class="meter">
+          <span class="meter-label">Armonía</span>
+          <span class="meter-track" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Armonía de color"><span class="meter-fill" style="width:${pct}%"></span></span>
+          <span class="meter-val">${esc(o.puntaje)} pts</span>
+        </div>
+        <button type="button" class="link-btn" data-copiar="${i}">Copiar look</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function pintar(){
+  const max=Math.max(...outfits.map(o=>Number(o.puntaje)||0));
+  const mejor=outfits.reduce((b,o,i)=>(Number(o.puntaje)>Number(outfits[b].puntaje)?i:b),0);
+  const lista=outfits.map((o,i)=>({o,i}));
+  lista.sort((a,b)=>orden==='prendas'
+    ? b.o.prendas.length-a.o.prendas.length
+    : Number(b.o.puntaje)-Number(a.o.puntaje));
+  $('resultados').innerHTML=lista.map(({o,i},pos)=>tarjeta(o,pos,max,i===mejor)).join('');
+  $('resultados').querySelectorAll('[data-copiar]').forEach((b,pos)=>{
+    b.addEventListener('click',async()=>{
+      const o=lista[pos].o;
+      const txt=`Look N.º ${String(pos+1).padStart(2,'0')}: `+o.prendas.map(p=>`${cap(p.tipo)} ${nom(p.color)}`).join(', ');
+      try{await navigator.clipboard.writeText(txt);b.textContent='Copiado';}catch{b.textContent='No se pudo copiar';}
+      setTimeout(()=>{b.textContent='Copiar look'},1800);
+    });
   });
-  let colorExp = [...new Set(motivos)].join(' y '); 
-  
-  return `<details><summary>¿Por qué se recomienda?</summary>
-    Apto para el clima y la formalidad del evento. Combina bien porque ${colorExp || 'mantiene un tono uniforme'}.</details>`;
 }
-function tarjeta(o, index){
-  return `<div class="card glass" style="animation: slideUp 0.6s ease backwards ${index * 0.1}s">
-    <span class="pts">★ ${esc(o.puntaje)} Puntos de color</span>
-    <div class="prendas">${o.prendas.map(prenda).join('')}</div>${detalle(o.explicacion)}</div>`;
+
+$('toolbar').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-orden]');
+  if(!b)return;
+  orden=b.dataset.orden;
+  $('toolbar').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  pintar();
+});
+
+function siguiente(id){
+  const inputs=[...document.querySelectorAll(`input[name="${id}"]`)];
+  if(inputs.length<2)return;
+  const i=inputs.findIndex(x=>x.checked);
+  inputs[(i+1)%inputs.length].checked=true;
+  resumen();
+  $('f').requestSubmit();
 }
+$('resultados').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-sig]');
+  if(b)siguiente(b.dataset.sig);
+});
 
 $('f').addEventListener('submit',async ev=>{
   ev.preventDefault();
-  const v=id=>$(id).value;
-  const capas=isNaN(v('capas'))?v('capas'):Number(v('capas'));
+  const capasV=valor('capas');
+  const capas=isNaN(capasV)||capasV===''?capasV:Number(capasV);
   const btn=$('btn-buscar');
-  
-  btn.textContent='Analizando Clóset...';
+  const label=btn.querySelector('span');
+
+  label.textContent='Revisando tu clóset…';
   btn.disabled=true;
-  $('estado').textContent='';
-  $('resultados').innerHTML='';
-  
+  $('toolbar').hidden=true;
+  $('estado').textContent='Buscando outfits';
+  $('resultados').innerHTML='<div class="skel" aria-hidden="true"><div class="s-num"></div><div class="s-body"></div></div>'.repeat(3);
+
   try{
     const r=await fetch('/api/recomendar',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({lugar:v('lugar'),temperatura:v('temperatura'),temporada:v('temporada'),capas})});
+      body:JSON.stringify({lugar:valor('lugar'),temperatura:valor('temperatura'),temporada:valor('temporada'),capas})});
     const d=await r.json();
-    
+
     if(d.estado!=='ok'){
-      $('estado').innerHTML=`<div class="msg glass">${esc(d.mensaje||'Ocurrió un error.')}</div>`;
+      aviso('Algo salió mal',d.mensaje||'Ocurrió un error.');
     }else if(d.outfits.length===0){
-      $('estado').innerHTML='<div class="msg glass">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';
+      aviso('Sin looks para esta portada','No encontramos un outfit con esas condiciones. Prueba a cambiar alguna de estas opciones:',
+        `<div class="sugs"><button type="button" data-sig="temporada">Otra paleta</button><button type="button" data-sig="capas">Otro número de capas</button><button type="button" data-sig="temperatura">Otro clima</button></div>`);
     }else{
-      $('estado').textContent='Outfits recomendados para ti';
-      $('resultados').innerHTML=d.outfits.map((o, i) => tarjeta(o, i)).join('');
+      outfits=d.outfits;
+      $('estado').textContent=`${outfits.length} outfits recomendados`;
+      $('contador').hidden=true;
+      $('toolbar').hidden=false;
+      pintar();
     }
   }catch(e){
-    $('estado').innerHTML='<div class="msg glass">No se pudo conectar con el servidor.</div>';
+    aviso('Sin conexión','No se pudo conectar con el servidor. Revisa que esté en marcha e intenta de nuevo.');
   }finally{
-    btn.textContent='Generar Recomendaciones';
+    label.textContent='Crear mis looks';
     btn.disabled=false;
   }
 });
