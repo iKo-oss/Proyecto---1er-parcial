@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creador de outfits</title>
+<title>VestirMe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -67,7 +67,7 @@ form { padding: 30px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; 
 label { display: grid; gap: 8px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mut); }
 select { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; transition: all 0.3s; outline: none; }
 select:focus { border-color: var(--acc); box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2); }
-select option { background: var(--bg2); color: var(--text); } /* Para legibilidad del menú nativo */
+select option { background: var(--bg2); color: var(--text); }
 
 button { 
   grid-column: 1 / -1; background: var(--acc); color: white; border: none; padding: 16px; border-radius: 12px; 
@@ -100,7 +100,7 @@ summary::marker { color: var(--acc); }
 </head>
 <body>
 <main>
-  <h1>StyleIA</h1>
+  <h1>VestirMe</h1>
   <p class="sub">Descubre tu outfit perfecto impulsado por nuestro sistema experto.</p>
   
   <form id="f" class="glass">
@@ -153,7 +153,6 @@ function detalle(e){
     Apto para el clima y la formalidad del evento. Combina bien porque ${colorExp || 'mantiene un tono uniforme'}.</details>`;
 }
 function tarjeta(o, index){
-  // Animación en cascada sumando 0.1s por cada resultado
   return `<div class="card glass" style="animation: slideUp 0.6s ease backwards ${index * 0.1}s">
     <span class="pts">★ ${esc(o.puntaje)} Puntos de color</span>
     <div class="prendas">${o.prendas.map(prenda).join('')}</div>${detalle(o.explicacion)}</div>`;
