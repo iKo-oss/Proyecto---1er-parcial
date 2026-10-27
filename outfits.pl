@@ -222,7 +222,7 @@ colores_de(Outfit, Colores) :- findall(Color, member(_-Color, Outfit), Colores).
 /* Regla: Colección sin repetidos (Optimizada) */
 /* Esta regla se optimizo porque se nos paso la mano con los hechos, entonces las busquedas nos parecieron mas de lo necesarias, por ello el límite */
 outfits(Lugar, Temp, Temporada, Capas, Lista) :-
-    findall(Outfit, limit(500, outfit(Lugar, Temp, Temporada, Capas, Outfit)), Todos),
+    findall(Outfit, limit(1000, outfit(Lugar, Temp, Temporada, Capas, Outfit)), Todos),
     sort(Todos, Lista).
 
 
