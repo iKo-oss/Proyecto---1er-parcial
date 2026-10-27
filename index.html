@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creador de outfits</title>
+<style>
+:root{--bg:#faf7f2;--card:#fff;--ink:#2b2622;--mut:#7a7068;--acc:#8a4b38;--line:#e8e0d6}
+@media(prefers-color-scheme:dark){:root{--bg:#1c1917;--card:#292524;--ink:#f3ede6;--mut:#a89f96;--acc:#c27a5f;--line:#3d3835}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,serif;line-height:1.5}
+main{max-width:760px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:2.1rem;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 20px}
+form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+label{display:grid;gap:4px;font:600 .75rem system-ui,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+select,button{font:1rem system-ui,sans-serif;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+button{grid-column:1/-1;background:var(--acc);color:#fff;border:0;font-weight:600;cursor:pointer}
+@media(max-width:520px){form{grid-template-columns:1fr}}
+#estado{margin:18px 0 8px;color:var(--mut);font-family:system-ui,sans-serif}
+.msg{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.prendas{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font:.9rem system-ui,sans-serif}
+.sw{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+details{margin-top:10px;font:.88rem system-ui,sans-serif;color:var(--mut)}
+summary{cursor:pointer;color:var(--acc)}
+.pts{float:right;font:.8rem system-ui,sans-serif;color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Creador de outfits</h1>
+  <p class="sub">Elige el lugar, el clima y la paleta, y el sistema experto en Prolog arma las combinaciones posibles de tu clóset.</p>
+  <form id="f">
+    <label>Lugar<select id="lugar"></select></label>
+    <label>Temperatura<select id="temperatura"></select></label>
+    <label>Paleta de temporada<select id="temporada"></select></label>
+    <label>Capas<select id="capas"></select></label>
+    <button type="submit">Buscar outfits</button>
+  </form>
+  <div id="estado"></div>
+  <div id="resultados"></div>
+</main>
+<script>
+// Los codigos hex solo sirven para DIBUJAR las muestras; las decisiones las toma Prolog.
+const HEX={rojo_vivo:'#e81900',amarillo_claro:'#fff59e',ocre_mostaza:'#c3a55c',verde_petroleo:'#417777',
+rojo_granate:'#740909',menta_palido:'#abf5ed',rojo_carmesi:'#a10b2b',azul_brillante:'#0d75ff',azul_marino:'#0d2b52',
+verde_sage:'#9cb29e',negro:'#000000',lavanda:'#b875eb',rosa_palido:'#d1b0b3',turquesa:'#29bdad',azul_cobalto:'#202d85',
+amarillo_neon:'#f2ff26',verde_boscoso:'#172713',verde_menta:'#6bffb3',marron_terracota:'#6c2b11',marron_oscuro:'#362304',
+blanco:'#ffffff',gris:'#8c8c8c',beige:'#d8c8a8',crema:'#f3ecd2',azul_denim:'#3b5b8c',
+verde_pera:'#d1e231',agua_menta:'#a8e6cf',azul_cielo:'#87ceeb',verde_jade:'#00a86b'};
+const ETIQ={otonio:'Otoño',neutros:'Solo neutros',todas:'Todas (1 a 3)',frio:'Frío'};
+const nom=s=>String(s).replace(/_/g,' ');
+const cap=s=>{s=nom(s);return s.charAt(0).toUpperCase()+s.slice(1)};
+const etiq=v=>ETIQ[v]||(typeof v==='number'?v+(v===1?' capa':' capas'):cap(v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+
+function llenar(id,vals){
+  $(id).innerHTML=vals.map(v=>`<option value="${esc(v)}">${esc(etiq(v))}</option>`).join('');
+}
+fetch('/api/opciones').then(r=>r.json()).then(o=>{
+  llenar('lugar',o.lugares);llenar('temperatura',o.temperaturas);
+  llenar('temporada',o.temporadas);llenar('capas',o.capas);
+}).catch(()=>{$('estado').textContent='No se pudo conectar con el servidor.'});
+
+function prenda(p){
+  const hex=HEX[p.color]||'#cccccc';
+  return `<span class="chip"><span class="sw" style="background:${hex}"></span>${esc(cap(p.tipo))} · ${esc(nom(p.color))}</span>`;
+}
+function detalle(e){
+  if(!e)return '';
+  const pares=e.parejas.map(p=>`${esc(nom(p.color1))} + ${esc(nom(p.color2))}: ${esc(nom(p.motivo))}`).join('<br>');
+  return `<details><summary>¿Por qué se recomienda?</summary>
+    Formalidad del lugar: ${esc(e.formalidad_lugar.join(' o '))} (escala 1 a 3).<br>
+    Abrigo máximo permitido por el clima: ${esc(e.abrigo_maximo)}.<br>
+    Capas de torso: ${esc(e.capas)}.<br>
+    Combinación de colores:<br>${pares||'una sola prenda de color'}</details>`;
+}
+function tarjeta(o){
+  return `<div class="card"><span class="pts">Colores de la paleta: ${esc(o.puntaje)}</span>
+    <div class="prendas">${o.prendas.map(prenda).join('')}</div>${detalle(o.explicacion)}</div>`;
+}
+
+$('f').addEventListener('submit',async ev=>{
+  ev.preventDefault();
+  const v=id=>$(id).value;
+  const capas=isNaN(v('capas'))?v('capas'):Number(v('capas'));
+  $('estado').textContent='Buscando…';$('resultados').innerHTML='';
+  try{
+    const r=await fetch('/api/recomendar',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({lugar:v('lugar'),temperatura:v('temperatura'),temporada:v('temporada'),capas})});
+    const d=await r.json();
+    if(d.estado!=='ok'){$('estado').innerHTML=`<div class="msg">${esc(d.mensaje||'Ocurrió un error.')}</div>`;return}
+    if(d.total===0){$('estado').innerHTML='<div class="msg">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';return}
+    $('estado').textContent=`Mostrando ${d.mostrados} de ${d.total} outfits, ordenados por uso de colores de la paleta.`;
+    $('resultados').innerHTML=d.outfits.map(tarjeta).join('');
+  }catch(e){$('estado').innerHTML='<div class="msg">No se pudo conectar con el servidor.</div>'}
+});
+</script>
+</body>
+</html>
