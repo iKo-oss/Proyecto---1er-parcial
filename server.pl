@@ -13,7 +13,7 @@
 :- http_handler(root(api/recomendar), handle_recomendar, [method(post)]).
 :- http_handler(root(.), servir_estaticos, [prefix]).
 
-max_resultados(15).
+max_resultados(8).
 
 servir_estaticos(Request) :- http_reply_from_files(static, [], Request).
 
