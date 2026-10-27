@@ -4,61 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creador de outfits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f3f4f6; --card: #ffffff; --ink: #111827; --mut: #6b7280; 
-  --acc: #4f46e5; --acc-hover: #4338ca; --line: #e5e7eb;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --bg1: #fbc2eb; --bg2: #a6c1ee; --bg3: #ffecd2;
+  --glass: rgba(255, 255, 255, 0.65);
+  --border: rgba(255, 255, 255, 0.4);
+  --text: #2f3542; --mut: #57606f;
+  --acc: #ff4757; --acc-hover: #ff6b81;
 }
-@media(prefers-color-scheme:dark) {
+@media(prefers-color-scheme: dark) {
   :root {
-    --bg: #111827; --card: #1f2937; --ink: #f9fafb; --mut: #9ca3af; 
-    --acc: #6366f1; --acc-hover: #818cf8; --line: #374151;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --bg1: #1e3c72; --bg2: #2a5298; --bg3: #192a56;
+    --glass: rgba(20, 20, 30, 0.65);
+    --border: rgba(255, 255, 255, 0.1);
+    --text: #f1f2f6; --mut: #a4b0be;
+    --acc: #ff6b81; --acc-hover: #ff4757;
   }
 }
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; transition: background-color 0.3s, color 0.3s; }
-main { max-width: 800px; margin: 0 auto; padding: 40px 20px 80px; }
-h1 { font-size: 2.5rem; font-weight: 800; margin: 0 0 8px; text-align: center; letter-spacing: -0.025em; }
-.sub { color: var(--mut); margin: 0 0 32px; text-align: center; font-size: 1.1rem; }
-form { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 16px; grid-template-columns: 1fr 1fr; box-shadow: var(--shadow); }
-label { display: grid; gap: 6px; font-size: 0.85rem; font-weight: 600; color: var(--mut); text-transform: uppercase; letter-spacing: 0.05em; }
-select { font: 1rem system-ui, sans-serif; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; outline: none; transition: border-color 0.2s; }
-select:focus { border-color: var(--acc); }
-button { grid-column: 1 / -1; background: var(--acc); color: #fff; border: 0; padding: 14px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2); transition: transform 0.1s, background-color 0.2s; }
-button:hover { background: var(--acc-hover); transform: translateY(-2px); }
-button:active { transform: translateY(0); }
-button:disabled { background: var(--mut); cursor: not-allowed; transform: none; box-shadow: none; }
-@media(max-width: 520px) { form { grid-template-columns: 1fr; } }
-#estado { margin: 24px 0 16px; color: var(--ink); font-weight: 600; text-align: center; font-size: 1.1rem; }
-.msg { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; text-align: center; color: var(--mut); box-shadow: var(--shadow); }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; transition: transform 0.2s; }
-.card:hover { transform: translateY(-2px); }
-.prendas { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--bg); border-radius: 20px; padding: 6px 14px 6px 8px; font-size: 0.95rem; font-weight: 500; }
-.sw { width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
-details { margin-top: 8px; font-size: 0.95rem; color: var(--mut); background: var(--bg); padding: 16px; border-radius: 12px; border: 1px solid var(--line); }
-summary { cursor: pointer; color: var(--acc); font-weight: 600; outline: none; }
-.pts { align-self: flex-start; background: var(--line); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--mut); }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: 'Montserrat', sans-serif; color: var(--text); min-height: 100vh;
+  background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3));
+  background-size: 200% 200%;
+  animation: moveBg 12s ease infinite;
+  padding: 40px 20px;
+}
+@keyframes moveBg { 
+  0% { background-position: 0% 50%; } 
+  50% { background-position: 100% 50%; } 
+  100% { background-position: 0% 50%; } 
+}
+@keyframes slideUp { 
+  from { opacity: 0; transform: translateY(30px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+main { max-width: 800px; margin: 0 auto; }
+h1 { font-size: 3rem; font-weight: 800; text-align: center; margin-bottom: 8px; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.sub { text-align: center; font-weight: 500; font-size: 1.1rem; color: var(--text); opacity: 0.8; margin-bottom: 40px; }
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+form { padding: 30px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; margin-bottom: 30px; }
+@media(max-width: 550px) { form { grid-template-columns: 1fr; } }
+
+label { display: grid; gap: 8px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mut); }
+select { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; transition: all 0.3s; outline: none; }
+select:focus { border-color: var(--acc); box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2); }
+select option { background: var(--bg2); color: var(--text); } /* Para legibilidad del menú nativo */
+
+button { 
+  grid-column: 1 / -1; background: var(--acc); color: white; border: none; padding: 16px; border-radius: 12px; 
+  font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer; transition: all 0.3s; margin-top: 10px;
+}
+button:hover { background: var(--acc-hover); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3); }
+button:disabled { background: var(--mut); cursor: wait; transform: none; box-shadow: none; animation: pulse 1.5s infinite; }
+
+#estado { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; min-height: 24px; }
+.msg { padding: 20px; text-align: center; font-weight: 600; color: var(--acc); }
+
+.card { padding: 24px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 16px; transition: transform 0.3s, box-shadow 0.3s; }
+.card:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+
+.prendas { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip { 
+  display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.4); 
+  border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px 8px 10px; 
+  font-size: 0.95rem; font-weight: 600; transition: transform 0.2s, background 0.2s; 
+}
+.chip:hover { transform: scale(1.05); background: rgba(255,255,255,0.8); }
+.sw { width: 20px; height: 20px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white; }
+
+details { background: rgba(255,255,255,0.2); padding: 16px; border-radius: 16px; font-size: 0.9rem; font-weight: 500; line-height: 1.6; border: 1px solid var(--border); }
+summary { font-weight: 700; color: var(--acc); cursor: pointer; outline: none; margin-bottom: 8px; }
+summary::marker { color: var(--acc); }
+.pts { align-self: flex-start; background: var(--acc); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
 </style>
 </head>
 <body>
 <main>
-  <h1>Creador de outfits</h1>
-  <p class="sub">Elige el lugar, el clima y la paleta, y el sistema experto en Prolog arma las combinaciones posibles de tu clóset.</p>
-  <form id="f">
-    <label>Lugar<select id="lugar"></select></label>
-    <label>Temperatura<select id="temperatura"></select></label>
-    <label>Paleta de temporada<select id="temporada"></select></label>
-    <label>Capas<select id="capas"></select></label>
-    <button type="submit" id="btn-buscar">Buscar outfits</button>
+  <h1>StyleIA</h1>
+  <p class="sub">Descubre tu outfit perfecto impulsado por nuestro sistema experto.</p>
+  
+  <form id="f" class="glass">
+    <label>Lugar <select id="lugar"></select></label>
+    <label>Clima <select id="temperatura"></select></label>
+    <label>Paleta <select id="temporada"></select></label>
+    <label>Capas <select id="capas"></select></label>
+    <button type="submit" id="btn-buscar">Generar Recomendaciones</button>
   </form>
+  
   <div id="estado"></div>
   <div id="resultados"></div>
 </main>
 <script>
-// Los codigos hex solo sirven para DIBUJAR las muestras; las decisiones las toma Prolog.
 const HEX={rojo_vivo:'#e81900',amarillo_claro:'#fff59e',ocre_mostaza:'#c3a55c',verde_petroleo:'#417777',
 rojo_granate:'#740909',menta_palido:'#abf5ed',rojo_carmesi:'#a10b2b',azul_brillante:'#0d75ff',azul_marino:'#0d2b52',
 verde_sage:'#9cb29e',negro:'#000000',lavanda:'#b875eb',rosa_palido:'#d1b0b3',turquesa:'#29bdad',azul_cobalto:'#202d85',
@@ -96,8 +152,10 @@ function detalle(e){
   return `<details><summary>¿Por qué se recomienda?</summary>
     Apto para el clima y la formalidad del evento. Combina bien porque ${colorExp || 'mantiene un tono uniforme'}.</details>`;
 }
-function tarjeta(o){
-  return `<div class="card"><span class="pts">Colores de la paleta: ${esc(o.puntaje)}</span>
+function tarjeta(o, index){
+  // Animación en cascada sumando 0.1s por cada resultado
+  return `<div class="card glass" style="animation: slideUp 0.6s ease backwards ${index * 0.1}s">
+    <span class="pts">★ ${esc(o.puntaje)} Puntos de color</span>
     <div class="prendas">${o.prendas.map(prenda).join('')}</div>${detalle(o.explicacion)}</div>`;
 }
 
@@ -107,7 +165,7 @@ $('f').addEventListener('submit',async ev=>{
   const capas=isNaN(v('capas'))?v('capas'):Number(v('capas'));
   const btn=$('btn-buscar');
   
-  btn.textContent='Buscando...';
+  btn.textContent='Analizando Clóset...';
   btn.disabled=true;
   $('estado').textContent='';
   $('resultados').innerHTML='';
@@ -118,17 +176,17 @@ $('f').addEventListener('submit',async ev=>{
     const d=await r.json();
     
     if(d.estado!=='ok'){
-      $('estado').innerHTML=`<div class="msg">${esc(d.mensaje||'Ocurrió un error.')}</div>`;
+      $('estado').innerHTML=`<div class="msg glass">${esc(d.mensaje||'Ocurrió un error.')}</div>`;
     }else if(d.outfits.length===0){
-      $('estado').innerHTML='<div class="msg">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';
+      $('estado').innerHTML='<div class="msg glass">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';
     }else{
-      $('estado').textContent='Outfits recomendados, ordenados por mayor uso de colores de la paleta.';
-      $('resultados').innerHTML=d.outfits.map(tarjeta).join('');
+      $('estado').textContent='✨ Outfits recomendados para ti ✨';
+      $('resultados').innerHTML=d.outfits.map((o, i) => tarjeta(o, i)).join('');
     }
   }catch(e){
-    $('estado').innerHTML='<div class="msg">No se pudo conectar con el servidor.</div>';
+    $('estado').innerHTML='<div class="msg glass">No se pudo conectar con el servidor.</div>';
   }finally{
-    btn.textContent='Buscar outfits';
+    btn.textContent='Generar Recomendaciones';
     btn.disabled=false;
   }
 });
