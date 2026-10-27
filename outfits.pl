@@ -7,6 +7,8 @@
 :- consult('escenarios.pl').
 :- consult('prendas.pl').
 
+:- use_module(library(solution_sequences)).
+
 /* Regla 0: Entradas válidas */
 /* lugar_valido ( lugar ), temperatura_valida ( temperatura ), temporada_valida ( temporada ), capas_validas ( capas ) */
 /* Comprueban que el lugar exista en los escenarios, que la temperatura exista en el clima, que la temporada sea válida y que las capas sean 1, 2, 3 o todas */
