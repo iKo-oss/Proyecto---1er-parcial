@@ -1,6 +1,3 @@
-/* Servidor web: expone el motor Prolog por HTTP.
-   Solo infraestructura: no contiene logica del sistema experto. */
-
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
