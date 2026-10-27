@@ -92,8 +92,8 @@ $('f').addEventListener('submit',async ev=>{
     const r=await fetch('/api/recomendar',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({lugar:v('lugar'),temperatura:v('temperatura'),temporada:v('temporada'),capas})});
     const d=await r.json();
-    if(d.estado!=='ok'){$('estado').innerHTML=`<div class="msg">${esc(d.mensaje||'Ocurrió un error.')}</div>`;return}
-    if(d.total===0){$('estado').innerHTML='<div class="msg">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';return}
+   if(d.outfits.length===0){$('estado').innerHTML='<div class="msg">No se encontró ningún outfit con esas condiciones. Prueba otra paleta, otro número de capas u otro clima.</div>';return}
+    $('estado').textContent='Outfits recomendados, ordenados por mayor uso de colores de la paleta.';
     $('estado').textContent=`Mostrando ${d.mostrados} de ${d.total} outfits, ordenados por uso de colores de la paleta.`;
     $('resultados').innerHTML=d.outfits.map(tarjeta).join('');
   }catch(e){$('estado').innerHTML='<div class="msg">No se pudo conectar con el servidor.</div>'}
